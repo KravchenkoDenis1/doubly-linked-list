@@ -6,7 +6,7 @@ class LinkedList {
 		this._head = null;
 		this._tail = null;
 	}
-
+	
 	append(data) {
 		var node = new Node(data),
 			currentNode = this.head;
@@ -25,7 +25,7 @@ class LinkedList {
 			this._tail = node;
 		}
 		this.length++;
-		return node.data;
+		return this;
 	}
 
     head() {
@@ -56,6 +56,7 @@ class LinkedList {
 			bNode = null,
 			aNode = null,
 			count = 1;
+		if (this.length > 0){
 			while (count < index) {
 				currentNode = currentNode.next;
 				count++;
@@ -68,7 +69,10 @@ class LinkedList {
 		node.prev = bNode;
 		this.length++;
 		return node.data;
-		
+		} else {
+			this._head = node;
+			this._tail = node;
+		}
 	}
 
     isEmpty() {
@@ -84,9 +88,14 @@ class LinkedList {
     clear() {
 		var currentNode = this._head;
 		var node2 = this._tail;
-		currentNode.data = null;
-		node2.data = null;
-		this.length = 0;
+		if (this.length > 1){
+			currentNode.data = null;
+			node2.data = null;
+			this.length = 0;
+		} else {
+			this.length = 0;
+		}
+		return this;
 	}
 
     deleteAt(index) {
@@ -97,8 +106,9 @@ class LinkedList {
 			aNode = null,
 			noteDel = null;
 			if (index === 0){
-				this.head = currentNode.next;
-				this.tail = null;
+				this._head = currentNode.next;
+				this._tail = null;
+				this.length--;
 			} else {
 		while (count < index){
 			currentNode = currentNode.next;
@@ -112,6 +122,7 @@ class LinkedList {
 		noteDel = null;
 		this.length--;
 		}
+		return this;
 	}
 
     reverse() {
@@ -119,19 +130,20 @@ class LinkedList {
 			node2 = this._tail,
 			length = this.length,
 			count = 0,
-			temp = 0;
-			length = length/2;
-			if (length === 1){
-				length++;
-			}
-		while (count < length){
-			temp = node1.data;
-			node1.data = node2.data;
-			node2.data = temp;
-			node1 = node1.next;
-			node2 = node2.prev;
-			count++;
-		}
+			temp = 0,
+			n = 0;
+			n = length/2;
+			if (length > 1){
+				while (count < n){
+					temp = node1.data;
+					node1.data = node2.data;
+					node2.data = temp;
+					node1 = node1.next;
+					node2 = node2.prev;
+					count++;
+				}
+			} 
+			return this;
 	}
 
     indexOf(data) {
